@@ -1,41 +1,36 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Movie from './Movie';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-
 
 const Row = ({ title, fetchURL, rowID }) => {
 
-  // 
+  // State variable to hold the list of movies in the row
   const [movies, setMovies] = useState([]);
 
-  // 
-  const [like, setLike] = useState(false);
-
-  // 
+  // Fetch the list of movies for the row from the provided URL on component mount or when the URL changes
   useEffect(() => {
     axios.get(fetchURL).then((response) => {
       setMovies(response.data.results);
     });
   }, [fetchURL]);
-  // console.log(movies);
 
-  // 
+  // Scroll the movie row to the left by 500 pixels
   const slideLeft = () => {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft - 500;
   };
 
-  // 
+  // Scroll the movie row to the right by 500 pixels 
   const slideRight = () => {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft + 500;
   };
 
-
   return (
     <>
       <h2 className='text-white font-bold md:text-xl p-4'>{title}</h2>
+
       <div className='relative flex items-center group'>
 
         <MdChevronLeft
@@ -48,33 +43,11 @@ const Row = ({ title, fetchURL, rowID }) => {
           id={'slider' + rowID}
           className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'
         >
+
           {movies.map((item, id) => (
-            <div className='w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2' key={id}>
-
-              <img
-                className='w-full h-auto block'
-                src={`https://image.tmdb.org/t/p/w500/${item?.backdrop_path}`}
-                alt={item?.title}
-              />
-
-              <div className='absolute top-0 left-0 w-full h-full hover:bg-black/80 opacity-0 hover:opacity-100 text-white'>
-
-                <p className='white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center'>
-                  {item?.title}
-                </p>
-
-                <p onClick={() => { }}>
-                  {like ? (
-                    <FaHeart className='absolute top-4 left-4 text-gray-300' />
-                  ) : (
-                    <FaRegHeart className='absolute top-4 left-4 text-gray-300' />
-                  )}
-                </p>
-
-              </div>
-
-            </div>
+            <Movie key={id} item={item} />
           ))}
+
         </div>
 
         <MdChevronRight
@@ -82,8 +55,10 @@ const Row = ({ title, fetchURL, rowID }) => {
           className='bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
           size={40}
         />
+
       </div>
     </>
   );
 };
+
 export default Row;
