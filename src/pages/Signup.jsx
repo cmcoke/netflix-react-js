@@ -4,25 +4,22 @@ import { UserAuth } from '../context/AuthContext';
 
 const SignUp = () => {
 
-  // 
+  // State variables to store email and password
   const [email, setEmail] = useState('');
-
-  // 
   const [password, setPassword] = useState('');
 
-  // 
+  // Destructure user and signUp function from the authentication context
   const { user, signUp } = UserAuth();
 
-  //
+  // Initialize the navigation function for programmatic navigation
   const navigate = useNavigate();
 
-
-  //
+  // Handle form submission to sign up the user
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signUp(email, password);
-      navigate('/');
+      await signUp(email, password); // Call the signUp function with the provided email and password
+      navigate('/');  // Redirect the user to the home page after successful sign up
     } catch (error) {
       console.log(error);
     }

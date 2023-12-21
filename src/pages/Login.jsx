@@ -5,22 +5,18 @@ import { UserAuth } from '../context/AuthContext';
 
 const Login = () => {
 
-  // 
+  // State variables to store email, password, and error messages
   const [email, setEmail] = useState('');
-
-  // 
   const [password, setPassword] = useState('');
-
-  // 
   const [error, setError] = useState('');
 
-  // 
+  // Destructure user and logIn function from the authentication context
   const { user, logIn } = UserAuth();
 
-  // 
+  // Initialize the navigation function for programmatic navigation
   const navigate = useNavigate();
 
-  //
+  // Handle form submission to log in the user
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -53,7 +49,7 @@ const Login = () => {
 
             <h1 className='text-3xl font-bold'>Sign In</h1>
 
-            {/*  */}
+            {/* Display an error message if there is a problem with the user's credentials */}
             {error ? <p className='p-3 bg-red-400 my-2'>{error}</p> : null}
 
             <form onSubmit={handleSubmit} className='w-full flex flex-col py-4'>
